@@ -16,7 +16,7 @@
 	
 		<div class="banner"></div>
 		<?php
-		include("menu.php");
+			include("menu.php");
 		?>
 		
 		<div class="orderarea">
@@ -39,19 +39,15 @@
 			    
 			}
 			
-			// Take in parameters
+			// Take in parameters (from form in order.php)
 			$name = $_POST["name"];
 			$book = $_POST["book"];
 			$email = $_POST["email"];
 			$t = time();
 			
-			// Insert into orders
-			// but oops query is not defined... yet
-			
-			$query = "";
-			
+			// Insert into orders!!
+			$query = "INSERT INTO orders (name, email, time, book) VALUES ('$name','$email','$t','$book')";
 			$result = mysql_query($query);
-			
 			if ($result) {
 				// What do the following lines do? Answer -> #1
 				$query2 = "SELECT * from books where asin = '".$book."'";
@@ -59,10 +55,9 @@
 				$row2 = mysql_fetch_assoc($result2);
 				sendmail($email, $name, $row2["title"]);
 				echo "<p>Thank you for ordering a book. Please check your email for further instructions.</p>";
-					
+			} else {
+				echo "<p>Uh oh, looks like the SQL query failed</p>";
 			}
-			
-			
 			?>
 		</div>
 		<script type="text/javascript">
